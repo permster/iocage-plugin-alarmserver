@@ -7,10 +7,10 @@ fetch "https://github.com/LXXero/DSCAlarm/archive/master.zip" -o /usr/local/
 unzip /usr/local/master.zip 'DSCAlarm-master/alarmserver/*' -o -j -d /usr/local/alarmserver
 
 # remove the package as it no longer needed
-rm /usr/local/master.linux.zip
+rm /usr/local/master.zip
 
 # install requests pip package
-yes | pip install requests
+yes | pip-2.7 install requests
 
 # create "alarmsrv" user
 pw user add alarmsrv -c alarmsrv -u 1055 -d /nonexistent -s /usr/bin/nologin
