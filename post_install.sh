@@ -24,6 +24,6 @@ chmod 755 /config
 # Start the services
 chmod u+x /etc/rc.d/alarmserver
 sysrc -f /etc/rc.conf alarmserver_enable="YES"
-service alarmserver start
+# service alarmserver start
 
 echo "AlarmServer successfully installed" > /root/PLUGIN_INFO
