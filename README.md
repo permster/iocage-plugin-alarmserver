@@ -1,1 +1,1 @@
-# iocage-plugin-lidarr
+# iocage-plugin-alarmserver
