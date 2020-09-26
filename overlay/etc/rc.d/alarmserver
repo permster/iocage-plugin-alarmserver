@@ -34,18 +34,19 @@ load_rc_config $name
 : ${alarmserver_group:="alarmsrv"}
 : ${alarmserver_data_dir:="/config"}
 
-pidfile="/usr/local/alarmserver/alarmserver.pid"
-command="/usr/local/bin/python2.7"
-command_args="/usr/local/alarmserver/alarmserver.py -c ${alarmserver_data_dir}/alarmserver.cfg"
+#pidfile="/usr/local/alarmserver/${name}.pid"
+command="/usr/sbin/daemon"
+procname="/usr/local/bin/python2.7"
+command_args="-f ${procname} /usr/local/alarmserver/alarmserver.py -c ${alarmserver_data_dir}/alarmserver.cfg"
 
 start_precmd="prestart"
 prestart() {
-        if [ -f ${pidfile} ]; then
-                rm -f ${pidfile}
-                echo "Removing stale pidfile."
-        elif [ ! -d ${pidfile%/*} ]; then
-                install -d -o ${alarmserver_user} -g ${alarmserver_group} ${pidfile%/*}
-        fi
+#        if [ -f ${pidfile} ]; then
+#                rm -f ${pidfile}
+#                echo "Removing stale pidfile."
+#        elif [ ! -d ${pidfile%/*} ]; then
+#                install -d -o ${alarmserver_user} -g ${alarmserver_group} ${pidfile%/*}
+#        fi
 
         if [ ! -d ${alarmserver_data_dir} ]; then
                 install -d -o ${alarmserver_user} -g ${alarmserver_group} ${alarmserver_data_dir}
