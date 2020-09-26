@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# $FreeBSD$
+#
+# PROVIDE: alarmserver
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf to enable alarmserver:
+# alarmserver_enable="YES"
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# alarmserver_enable:    Set to YES to enable alarmserver
+#            Default: NO
+# alarmserver_user:    The user account used to run the alarmserver daemon.
+#            This is optional, however do not specifically set this to an
+#            empty string as this will cause the daemon to run as root.
+#            Default: alarmserver
+# alarmserver_group:    The group account used to run the alarmserver daemon.
+#            This is optional, however do not specifically set this to an
+#            empty string as this will cause the daemon to run with group wheel.
+#            Default: alarmserver
+
+
+. /etc/rc.subr
+name="alarmserver"
+rcvar=${name}_enable
+load_rc_config $name
+
+: ${alarmserver_enable="NO"}
+: ${alarmserver_user:="alarmserver"}
+: ${alarmserver_group:="alarmserver"}
+: ${alarmserver_data_dir:="/config"}
+
+pidfile="/usr/local/alarmserver/alarmserver.pid"
+command="/usr/local/bin/python2.7"
+command_args="/usr/local/alarmserver/alarmserver.py -c ${alarmserver_data_dir}/alarmserver.cfg"
+
+start_precmd="prestart"
+prestart() {
+        if [ -f ${pidfile} ]; then
+                rm -f ${pidfile}
+                echo "Removing stale pidfile."
+        elif [ ! -d ${pidfile%/*} ]; then
+                install -d -o ${alarmserver_user} -g ${alarmserver_group} ${pidfile%/*}
+        fi
+
+        if [ ! -d ${alarmserver_data_dir} ]; then
+                install -d -o ${alarmserver_user} -g ${alarmserver_group} ${alarmserver_data_dir}
+        fi
+
+}
+
+run_rc_command "$1"
