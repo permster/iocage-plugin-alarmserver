@@ -30,8 +30,8 @@ rcvar=${name}_enable
 load_rc_config $name
 
 : ${alarmserver_enable="NO"}
-: ${alarmserver_user:="alarmserver"}
-: ${alarmserver_group:="alarmserver"}
+: ${alarmserver_user:="alarmsrv"}
+: ${alarmserver_group:="alarmsrv"}
 : ${alarmserver_data_dir:="/config"}
 
 pidfile="/usr/local/alarmserver/alarmserver.pid"
